@@ -1,5 +1,11 @@
+'use client' ;
+
+
 import { cn } from '@/lib/actions/utils';
+import { Assistant } from '@vapi-ai/web/dist/api';
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -8,14 +14,23 @@ enum CallStatus {
   FINISHED = "FINISHED",
 }
 
-const Agent = ({userName} : AgentProps) => {
-    const isSpeacking = true;
-    const callStatus = CallStatus.FINISHED;
-    const messages = [
-        'whats your name ?',
-        'my name is yassir chou , nice to meet u '
-    ];
-    const lastMessage = messages[messages.length - 1];
+
+interface SavedMessage {
+  role : 'user' | 'system' | 'assistant';
+  content: string;
+}
+
+
+const Agent = ({userName , userId , type} : AgentProps) => {
+    
+  const router = useRouter();
+  const [isSpeacking , setIsSpeacking] = useState(false);
+  const [callStatus , setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
+  const [messages , seMessages] = useState<SavedMessage[]>([])
+  
+  useEffect(() => {
+
+  } , [])
   return (
     <>
       <div className="call-view">
