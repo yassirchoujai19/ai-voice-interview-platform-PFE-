@@ -6,6 +6,7 @@ import { Assistant } from '@vapi-ai/web/dist/api';
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import {vapi} from '@/lib/vapi.sdk'
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -26,9 +27,43 @@ const Agent = ({userName , userId , type} : AgentProps) => {
   const router = useRouter();
   const [isSpeacking , setIsSpeacking] = useState(false);
   const [callStatus , setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
-  const [messages , seMessages] = useState<SavedMessage[]>([])
+  const [messages , setMessages] = useState<SavedMessage[]>([])
   
   useEffect(() => {
+const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
+const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
+
+const onMessage = (message : Message) => {
+  if(message.type === 'transcript' && message.transcriptType === 'final'){
+    const newMessage = {role : message.role , content : message.transcript
+     }
+         setMessages((prev) => [ ...prev, newMessage ]);
+
+  }
+}
+
+const onSpeachStart = () => setIsSpeacking(true);
+const onSpeachEnd = () => setIsSpeacking(false);
+
+const onError = (error : Error) => console.log('Error' , error);
+
+  vapi.on('call-start' , onCallStart)
+  vapi.on('call-end' , onCallEnd);
+  vapi.on('message' , onMessage);
+  vapi.on('speech-start' , onSpeachStart);
+  vapi.on('speech-end' , onSpeachEnd);
+  vapi.on('error' , onError);
+
+
+return () => {
+    vapi.off('call-start' , onCallStart)
+    vapi.off('call-end' , onCallEnd);
+    vapi.off('message' , onMessage);
+    vapi.off('speech-start' , onSpeachStart);
+    vapi.off('speech-end' , onSpeachEnd);
+    vapi.off('error' , onError);
+}
+
 
   } , [])
   return (
