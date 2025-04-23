@@ -8,7 +8,7 @@ const firebaseConfig = {
   authDomain: "prepwise-844af.firebaseapp.com",
   projectId: "prepwise-844af",
   storageBucket: "prepwise-844af.firebasestorage.app",
-  messagingSenderId: "193290711322",
+  messagingSenderId: " 193290711322 ",
   appId: "1:193290711322:web:e44088a90c92c754aa7ca3",
   measurementId: "G-WM710NRCJ0"
 };
