@@ -94,6 +94,8 @@ export async function createFeedback(params : CreateFeedbackParams){
     }
     
     }catch (e){
-console.log('Error saving feedback', e)
+    console.log('Error saving feedback', e)
+
+    return {success: false}
     }
 }
