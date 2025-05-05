@@ -13,7 +13,6 @@ const page = async ({ params} : RouteParams) => {
   const interview = await getInterviewById(id);
   
   if(!interview) redirect('/')
-
   return (
     <>
       <div className="flex flex-row gap-4 justify-between">
